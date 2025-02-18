@@ -49,6 +49,46 @@ class Terminal {
         this.output.scrollTop = this.output.scrollHeight;
     }
 
+    writeHTML(html) {
+        const container = document.createElement('div');
+        container.className = 'terminal-line';
+        container.innerHTML = html;
+        this.output.appendChild(container);
+        this.output.scrollTop = this.output.scrollHeight;
+    }
+
+    async simulateHacking() {
+        const hackingLines = [
+            'Initializing hack sequence...',
+            'Bypassing security protocols...',
+            'Accessing mainframe...',
+            'Decrypting security layers...',
+            'Injecting payload...',
+            'Establishing backdoor connection...',
+            'Extracting sensitive data...',
+            'Covering tracks...',
+            'SECURITY BREACH DETECTED!',
+            'SYSTEM LOCKDOWN INITIATED!',
+            'TRACE PROGRAM ACTIVATED!',
+            '[ERROR] Access Denied: Buen intento pero es un portfolio, no una terminal de hacker 😎'
+        ];
+
+        for (const line of hackingLines) {
+            await new Promise(resolve => setTimeout(resolve, 300));
+            this.writeOutput(line);
+            
+            // Add random hex codes for effect
+            if (line !== hackingLines[hackingLines.length - 1]) {
+                const hexLine = Array(Math.floor(Math.random() * 3) + 1)
+                    .fill(0)
+                    .map(() => Math.random().toString(16).substr(2, 8))
+                    .join(' ');
+                await new Promise(resolve => setTimeout(resolve, 100));
+                this.writeOutput(`0x${hexLine}`);
+            }
+        }
+    }
+
     handleCommand(cmd) {
         switch (cmd.toLowerCase()) {
             case 'help':
@@ -63,9 +103,19 @@ class Terminal {
 
             case 'whoami':
                 this.writeOutput('=== About Me ===');
-                this.writeOutput('Full Stack Developer');
-                this.writeOutput('Passionate about cybersecurity and web development');
-                this.writeOutput('Currently hacking the matrix...');
+                this.writeHTML(`
+                    <div class="profile-container">
+                        <img src="https://avatars.githubusercontent.com/u/1234567" alt="Jose Juan Gallegos Suarez" class="profile-image">
+                        <div class="profile-info">
+                            <h2 class="profile-name">Jose Juan Gallegos Suarez</h2>
+                            <p>Full Stack Developer</p>
+                            <p>Passionate about cybersecurity and web development</p>
+                            <a href="/path-to-your-cv.pdf" download class="download-cv">
+                                Download CV <span class="download-icon">⬇</span>
+                            </a>
+                        </div>
+                    </div>
+                `);
                 break;
 
             case 'projects':
@@ -101,8 +151,7 @@ class Terminal {
                 break;
 
             case 'sudo':
-                this.writeOutput('Nice try, hacker! 😎');
-                this.writeOutput('Access denied: Insufficient privileges');
+                this.simulateHacking();
                 break;
 
             case '':
